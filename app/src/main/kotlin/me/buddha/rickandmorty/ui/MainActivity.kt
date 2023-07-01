@@ -23,46 +23,33 @@ import me.buddha.rickandmorty.ui.theme.RickAndMortyTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+  private val viewModel by viewModels<MainViewModel>()
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      val navController = rememberNavController()
-      NavHost(
-        navController = navController,
-        startDestination = Destination.CharatersList.route,
-      ) {
-        composable(Destination.CharatersList.route) {
-          CharactersListScreen(
-            viewModel = hiltViewModel(),
-          )
-        }
 
-        composable(Destination.CharacterDetails.route) {
-          // CharacterDetailsScreen()
-        }
-      }
       RickAndMortyTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          Greeting("Android")
+        val navController = rememberNavController()
+        NavHost(
+          navController = navController,
+          startDestination = Destination.CharactersList.route,
+        ) {
+          composable(Destination.CharactersList.route) {
+            CharactersListScreen(
+              viewModel = viewModel,
+              navController = navController,
+            )
+          }
+
+          composable(Destination.CharacterDetails.route) {
+            CharacterDetailsScreen(
+              viewModel = viewModel,
+              navController = navController,
+            )
+          }
         }
       }
     }
-  }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  RickAndMortyTheme {
-    Greeting("Android")
   }
 }
