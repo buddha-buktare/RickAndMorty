@@ -9,8 +9,8 @@ class MainRepository @Inject constructor(
   private val service: ApiService
 ) {
 
-  suspend fun getCharacters() = flow {
-    emit(service.getCharactersList().results)
+  suspend fun getCharacters(page: Int) = flow {
+    emit(service.getCharactersList(page).results)
   }.catch {
     emit(emptyList())
   }

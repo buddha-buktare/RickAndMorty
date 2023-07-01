@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.buddha.rickandmorty.data.model.Character
+import me.buddha.rickandmorty.domain.extention.addPageData
+import me.buddha.rickandmorty.domain.extention.getNextPageNumber
 import me.buddha.rickandmorty.domain.repository.MainRepository
 import javax.inject.Inject
 
@@ -29,8 +31,8 @@ class MainViewModel @Inject constructor(
 
   fun fetchCharacters() {
     viewModelScope.launch {
-      repository.getCharacters().onEach {
-        characters.addAll(it.toMutableStateList())
+      repository.getCharacters(characters.getNextPageNumber()).onEach {
+        characters.addPageData(it.toMutableStateList())
       }.launchIn(viewModelScope)
     }
   }

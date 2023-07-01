@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import me.buddha.rickandmorty.domain.Destination
+import me.buddha.rickandmorty.domain.extention.OnEndReached
 import me.buddha.rickandmorty.ui.component.CharacterListItem
 
 @Composable
@@ -38,5 +39,9 @@ internal fun CharactersListScreen(
         )
       }
     }
+  }
+
+  state.OnEndReached {
+    viewModel.fetchCharacters()
   }
 }
