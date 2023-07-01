@@ -13,6 +13,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.buddha.rickandmorty.data.model.Character
+import me.buddha.rickandmorty.domain.Filter
+import me.buddha.rickandmorty.domain.Filter.ALIVE
+import me.buddha.rickandmorty.domain.Filter.ALL
+import me.buddha.rickandmorty.domain.Filter.DEAD
+import me.buddha.rickandmorty.domain.Filter.FEMALE
+import me.buddha.rickandmorty.domain.Filter.MALE
+import me.buddha.rickandmorty.domain.Filter.STARRED
 import me.buddha.rickandmorty.domain.extention.addPageData
 import me.buddha.rickandmorty.domain.extention.getNextPageNumber
 import me.buddha.rickandmorty.domain.repository.MainRepository
@@ -25,6 +32,8 @@ class MainViewModel @Inject constructor(
 
   val characters = mutableStateListOf<Character>()
   var selectedCharacter: Character? by mutableStateOf(null, neverEqualPolicy())
+  val filters = listOf(ALL, STARRED, ALIVE, DEAD, MALE, FEMALE)
+  val appliedFilters = mutableStateListOf<Filter>()
 
   init {
     fetchCharacters()
@@ -44,4 +53,23 @@ class MainViewModel @Inject constructor(
       selectedCharacter = this
     }
   }
+
+  fun onFilterChipClick(filter: Filter) {
+    if(appliedFilters.contains(filter)) {
+      appliedFilters.remove(filter)
+    } else {
+      appliedFilters.add(filter)
+    }
+  }
+
+  fun filterVerify(character: Character): Boolean {
+    if(appliedFilters.contains(ALL)) return true
+    if(appliedFilters.contains(ALIVE) && character.status != "Alive") return false
+    if(appliedFilters.contains(DEAD) && character.status != "Dead") return false
+    if(appliedFilters.contains(FEMALE) && character.gender != "Female") return false
+    if(appliedFilters.contains(MALE) && character.gender != "Male") return false
+    if(appliedFilters.contains(STARRED) && !character.isStarred) return false
+    return true
+  }
+
 }
