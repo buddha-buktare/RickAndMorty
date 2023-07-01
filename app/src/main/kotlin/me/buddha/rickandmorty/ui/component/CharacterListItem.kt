@@ -22,11 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import me.buddha.rickandmorty.R
 import me.buddha.rickandmorty.R.drawable
 import me.buddha.rickandmorty.data.model.Character
 
@@ -43,11 +46,11 @@ internal fun CharacterListItem(
         .fillMaxWidth()
         .padding(
           horizontal = 10.dp,
-          vertical = 4.dp,
+          vertical = 6.dp,
         )
-        .height(100.dp)
+        .height(120.dp)
         .clip(RoundedCornerShape(16.dp))
-        .background(Color.Cyan)
+        .background(color = colorResource(id = R.color.grey))
         .clickable { onClick() },
       verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -58,13 +61,15 @@ internal fun CharacterListItem(
           .fillMaxHeight(),
         contentScale = ContentScale.Fit,
       )
-      Spacer(modifier = Modifier.width(10.dp))
+      Spacer(modifier = Modifier.width(16.dp))
       Text(
         text = character.name,
         modifier = Modifier.padding(end = 8.dp),
         fontSize = 30.sp,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
+        fontFamily = FontFamily.SansSerif,
+        color = colorResource(id = R.color.white),
       )
     }
 
@@ -83,11 +88,3 @@ internal fun CharacterListItem(
     }
   }
 }
-
-// @Preview
-// @Composable
-// fun CharacterListItemPreview() {
-//   RickAndMortyTheme {
-//     CharacterListItem()
-//   }
-// }

@@ -1,5 +1,6 @@
 package me.buddha.rickandmorty.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,16 +9,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import me.buddha.rickandmorty.domain.Destination
 import me.buddha.rickandmorty.domain.extention.OnEndReached
@@ -41,29 +39,20 @@ internal fun CharactersListScreen(
     SearchInput(
       searchInput = searchInput,
       onSearchInputChange = { searchInput = it },
-      modifier = Modifier.padding(
-        horizontal = 16.dp,
-        vertical = 8.dp,
-      ),
-    )
-
-    Text(
-      text = "Filters",
-      modifier = Modifier.padding(horizontal = 16.dp),
-      fontSize = 20.sp,
-      maxLines = 1,
-      overflow = TextOverflow.Ellipsis,
+      modifier = Modifier.padding(16.dp),
     )
 
     LazyRow(
-      contentPadding = PaddingValues(8.dp),
+      contentPadding = PaddingValues(vertical = 8.dp),
+      modifier = Modifier.padding(horizontal = 8.dp)
     ) {
       items(viewModel.filters) { filter ->
         FilterChip(
           title = filter.title,
-          onClick = { viewModel.onFilterChipClick(filter) },
           isApplied = viewModel.appliedFilters.contains(filter),
-          modifier = Modifier.padding(8.dp)
+          modifier = Modifier
+            .clickable { viewModel.onFilterChipClick(filter) }
+            .padding(8.dp),
         )
       }
     }
@@ -73,7 +62,7 @@ internal fun CharactersListScreen(
       modifier = Modifier.fillMaxSize(),
     ) {
       items(viewModel.characters) { character ->
-        if(viewModel.filterVerify(character) && character.name.contains(searchInput)) {
+        if (viewModel.filterVerify(character) && character.name.contains(searchInput)) {
           CharacterListItem(
             character = character,
             onClick = {
