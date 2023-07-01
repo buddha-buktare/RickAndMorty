@@ -10,6 +10,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -19,6 +23,7 @@ import me.buddha.rickandmorty.domain.Destination
 import me.buddha.rickandmorty.domain.extention.OnEndReached
 import me.buddha.rickandmorty.ui.component.CharacterListItem
 import me.buddha.rickandmorty.ui.component.FilterChip
+import me.buddha.rickandmorty.ui.component.SearchInput
 
 @Composable
 internal fun CharactersListScreen(
@@ -27,10 +32,20 @@ internal fun CharactersListScreen(
 ) {
 
   val state = rememberLazyListState()
+  var searchInput by remember { mutableStateOf("") }
 
   Column(
     modifier = Modifier.fillMaxSize(),
   ) {
+
+    SearchInput(
+      searchInput = searchInput,
+      onSearchInputChange = { searchInput = it },
+      modifier = Modifier.padding(
+        horizontal = 16.dp,
+        vertical = 8.dp,
+      ),
+    )
 
     Text(
       text = "Filters",
@@ -58,7 +73,7 @@ internal fun CharactersListScreen(
       modifier = Modifier.fillMaxSize(),
     ) {
       items(viewModel.characters) { character ->
-        if(viewModel.filterVerify(character)) {
+        if(viewModel.filterVerify(character) && character.name.contains(searchInput)) {
           CharacterListItem(
             character = character,
             onClick = {

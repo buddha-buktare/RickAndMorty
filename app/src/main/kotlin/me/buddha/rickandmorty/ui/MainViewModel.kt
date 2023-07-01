@@ -1,6 +1,5 @@
 package me.buddha.rickandmorty.ui
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,23 +35,16 @@ class MainViewModel @Inject constructor(
   val filters = listOf(ALL, STARRED, ALIVE, DEAD, MALE, FEMALE)
   val appliedFilters = mutableStateListOf<Filter>()
 
-  // To avoid api calls while filters are applied
-  private val shouldFetchData by derivedStateOf {
-    appliedFilters.isEmpty() || appliedFilters.contains(ALL)
-  }
-
   init {
     fetchCharacters()
   }
 
   fun fetchCharacters() {
-    if(shouldFetchData) {
       viewModelScope.launch {
         repository.getCharacters(characters.getNextPageNumber()).onEach {
           characters.addPageData(it.toMutableStateList())
         }.launchIn(viewModelScope)
       }
-    }
   }
 
   fun updateStar() {

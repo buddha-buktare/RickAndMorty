@@ -62,7 +62,7 @@ internal fun CharacterListItem(
       Text(
         text = character.name,
         modifier = Modifier.padding(end = 8.dp),
-        fontSize = 20.sp,
+        fontSize = 30.sp,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
       )
