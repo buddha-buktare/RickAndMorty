@@ -9,4 +9,5 @@ data class Character(
   val origin: Location,
   val location: Location,
   val image: String,
+  var isStarred: Boolean = false,
 )

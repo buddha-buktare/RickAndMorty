@@ -28,7 +28,7 @@ internal fun CharactersListScreen(
       state = state,
       modifier = Modifier.fillMaxSize(),
     ) {
-      items(viewModel.characters.toList()) { character ->
+      items(viewModel.characters) { character ->
         Log.d("Compose Character", character.toString())
         CharacterListItem(
           character = character,

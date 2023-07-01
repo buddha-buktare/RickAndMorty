@@ -1,6 +1,5 @@
 package me.buddha.rickandmorty.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,9 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +26,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextAlign.Companion
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -144,15 +139,25 @@ fun CharacterDetailsScreen(
           }
       )
 
-
+      Icon(
+        painter = painterResource(id = if (character.isStarred) R.drawable.ic_star_filled else R.drawable.ic_star_border),
+        contentDescription = null,
+        modifier = Modifier
+          .padding(12.dp)
+          .clip(CircleShape)
+          .size(48.dp)
+          .clickable {
+            viewModel.updateStar()
+          }
+          .align(Alignment.TopEnd),
+        tint = if (character.isStarred) Color.Yellow else Color.White,
+      )
     }
-
-
   }
 }
 
 @Composable
-fun getAnnotatedString(
+private fun getAnnotatedString(
   title: String,
   value: String,
 ): AnnotatedString {
