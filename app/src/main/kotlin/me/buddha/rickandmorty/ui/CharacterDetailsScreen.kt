@@ -147,13 +147,12 @@ fun CharacterDetailsScreen(
       ) {
         Text(
           text = character.name,
-          fontSize = 50.sp,
-          // maxLines = 2,
-          // overflow = TextOverflow.Ellipsis,
+          fontSize = 40.sp,
           textAlign = TextAlign.Center,
           fontFamily = FontFamily.SansSerif,
           color = colorResource(id = R.color.white),
           fontWeight = FontWeight.ExtraBold,
+          lineHeight = 40.sp
         )
       }
 
