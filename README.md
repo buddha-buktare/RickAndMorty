@@ -33,5 +33,6 @@ You can find cool animations for the character info and character image in Chara
 <p align="center">
   <img  width="300" height="600" src = "https://github.com/buddha-buktare/RickAndMorty/assets/128225158/2cc01228-8355-4445-ac3a-3874193abd34" /> 
   <img  width="300" height="600" src = "https://github.com/buddha-buktare/RickAndMorty/assets/128225158/df223c10-6794-4623-85ed-5582303e81bb" />
+  <img  width="300" height="600" src = "https://github.com/buddha-buktare/RickAndMorty/assets/128225158/76aec22a-8fa3-4b3c-b558-20edcce27cb8" />
 </p>
 
