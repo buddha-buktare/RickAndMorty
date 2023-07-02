@@ -62,7 +62,7 @@ internal fun CharactersListScreen(
       modifier = Modifier.fillMaxSize(),
     ) {
       items(viewModel.characters) { character ->
-        if (viewModel.filterVerify(character) && character.name.contains(searchInput)) {
+        if (viewModel.filterVerify(character) && character.name.contains(searchInput, ignoreCase = true)) {
           CharacterListItem(
             character = character,
             onClick = {
