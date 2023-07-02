@@ -20,6 +20,7 @@ import me.buddha.rickandmorty.domain.Filter.DEAD
 import me.buddha.rickandmorty.domain.Filter.FEMALE
 import me.buddha.rickandmorty.domain.Filter.MALE
 import me.buddha.rickandmorty.domain.Filter.STARRED
+import me.buddha.rickandmorty.domain.ScreenState
 import me.buddha.rickandmorty.domain.extention.addPageData
 import me.buddha.rickandmorty.domain.extention.getNextPageNumber
 import me.buddha.rickandmorty.domain.repository.MainRepository
@@ -34,17 +35,31 @@ class MainViewModel @Inject constructor(
   var selectedCharacter: Character? by mutableStateOf(null, neverEqualPolicy())
   val filters = listOf(ALL, STARRED, ALIVE, DEAD, MALE, FEMALE)
   val appliedFilters = mutableStateListOf<Filter>()
+  var screenState by mutableStateOf<ScreenState>(ScreenState.Loading)
+  private var hasMorePages by mutableStateOf(true)
 
   init {
     fetchCharacters()
   }
 
   fun fetchCharacters() {
+    if (hasMorePages) {
       viewModelScope.launch {
-        repository.getCharacters(characters.getNextPageNumber()).onEach {
-          characters.addPageData(it.toMutableStateList())
+        repository.getCharacters(characters.getNextPageNumber()).onEach { pagingState ->
+          pagingState.data?.results?.let {
+            characters.addPageData(it.toMutableStateList())
+            screenState = ScreenState.Success
+
+            hasMorePages = pagingState.hasMorePages
+          }
+          pagingState.error?.let {
+            if (characters.isEmpty()) {
+              screenState = ScreenState.Error(it.message)
+            }
+          }
         }.launchIn(viewModelScope)
       }
+    }
   }
 
   internal fun updateStar() {

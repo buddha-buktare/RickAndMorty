@@ -14,3 +14,10 @@ enum class Filter(val title: String) {
   MALE("Male"),
   STARRED("Starred"),
 }
+
+sealed class ScreenState(val errorMessage: String? = null) {
+  object Success : ScreenState()
+  data class Error(val message: String? = null) : ScreenState(errorMessage = message)
+
+  object Loading : ScreenState()
+}

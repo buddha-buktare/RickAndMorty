@@ -1,27 +1,10 @@
 package me.buddha.rickandmorty.ui
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import me.buddha.rickandmorty.domain.Destination
-import me.buddha.rickandmorty.domain.extention.OnEndReached
-import me.buddha.rickandmorty.ui.component.CharacterListItem
-import me.buddha.rickandmorty.ui.component.FilterChip
-import me.buddha.rickandmorty.ui.component.SearchInput
+import me.buddha.rickandmorty.domain.ScreenState.Error
+import me.buddha.rickandmorty.domain.ScreenState.Loading
+import me.buddha.rickandmorty.domain.ScreenState.Success
 
 @Composable
 internal fun CharactersListScreen(
@@ -29,53 +12,16 @@ internal fun CharactersListScreen(
   navController: NavHostController,
 ) {
 
-  val state = rememberLazyListState()
-  var searchInput by remember { mutableStateOf("") }
-
-  Column(
-    modifier = Modifier.fillMaxSize(),
-  ) {
-
-    SearchInput(
-      searchInput = searchInput,
-      onSearchInputChange = { searchInput = it },
-      modifier = Modifier.padding(16.dp),
+  when (val state = viewModel.screenState) {
+    is Error -> CharactersListErrorState(
+      errorTitle = state.errorMessage ?: "Something went wrong! \n Please try again.",
+      onRetryClick = viewModel::fetchCharacters
     )
 
-    LazyRow(
-      contentPadding = PaddingValues(vertical = 8.dp),
-      modifier = Modifier.padding(horizontal = 8.dp)
-    ) {
-      items(viewModel.filters) { filter ->
-        FilterChip(
-          title = filter.title,
-          isApplied = viewModel.appliedFilters.contains(filter),
-          modifier = Modifier
-            .clickable { viewModel.onFilterChipClick(filter) }
-            .padding(8.dp),
-        )
-      }
-    }
-
-    LazyColumn(
-      state = state,
-      modifier = Modifier.fillMaxSize(),
-    ) {
-      items(viewModel.characters) { character ->
-        if (viewModel.filterVerify(character) && character.name.contains(searchInput, ignoreCase = true)) {
-          CharacterListItem(
-            character = character,
-            onClick = {
-              viewModel.selectedCharacter = character
-              navController.navigate(Destination.CharacterDetails.route)
-            },
-          )
-        }
-      }
-    }
-  }
-
-  state.OnEndReached {
-    viewModel.fetchCharacters()
+    is Loading -> {}
+    is Success -> CharactersListSuccessState(
+      viewModel = viewModel,
+      navController = navController,
+    )
   }
 }
