@@ -47,14 +47,14 @@ class MainViewModel @Inject constructor(
       }
   }
 
-  fun updateStar() {
+  internal fun updateStar() {
     characters.firstOrNull { it.id == selectedCharacter?.id }?.run {
       isStarred = !isStarred
       selectedCharacter = this
     }
   }
 
-  fun onFilterChipClick(filter: Filter) {
+  internal fun onFilterChipClick(filter: Filter) {
     if(appliedFilters.contains(filter)) {
       appliedFilters.remove(filter)
     } else {
@@ -62,7 +62,7 @@ class MainViewModel @Inject constructor(
     }
   }
 
-  fun filterVerify(character: Character): Boolean {
+  internal fun filterVerify(character: Character): Boolean {
     if(appliedFilters.contains(ALL)) return true
     if(appliedFilters.contains(ALIVE) && character.status != "Alive") return false
     if(appliedFilters.contains(DEAD) && character.status != "Dead") return false
