@@ -13,7 +13,10 @@ You can filter the list of characters on various filters available in the app li
 #### 3. Searching
 You can search for a character by their name. The text in SearchInputField looks for the occurence of the substring in the names of characters and return the modified list.
 
-#### 4. Animations
+#### 4.Pagination
+The character list is paginated. Each page contains 20 characters. API call for next page is made only when user reaches to the end of the list.
+
+#### 5. Animations
 You can find cool animations for the character info and character image in Character Details Screen. Animations such as fadeIn(), slideIn() are used.
 
 ## Tech Stack
@@ -26,4 +29,9 @@ You can find cool animations for the character info and character image in Chara
 7. Coil
 
 ## ScreenShots
+
+![Screenshot_20230702-103625](https://github.com/buddha-buktare/RickAndMorty/assets/128225158/2cc01228-8355-4445-ac3a-3874193abd34) 
+
+
+![Screenshot_20230702-113755](https://github.com/buddha-buktare/RickAndMorty/assets/128225158/df223c10-6794-4623-85ed-5582303e81bb)
 
