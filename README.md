@@ -30,8 +30,8 @@ You can find cool animations for the character info and character image in Chara
 
 ## ScreenShots
 
-![Screenshot_20230702-103625](https://github.com/buddha-buktare/RickAndMorty/assets/128225158/2cc01228-8355-4445-ac3a-3874193abd34) 
-
-
-![Screenshot_20230702-113755](https://github.com/buddha-buktare/RickAndMorty/assets/128225158/df223c10-6794-4623-85ed-5582303e81bb)
+<p align="center">
+  <img  width="300" height="600" src = "https://github.com/buddha-buktare/RickAndMorty/assets/128225158/2cc01228-8355-4445-ac3a-3874193abd34" /> 
+  <img  width="300" height="600" src = "https://github.com/buddha-buktare/RickAndMorty/assets/128225158/df223c10-6794-4623-85ed-5582303e81bb" />
+</p>
 
